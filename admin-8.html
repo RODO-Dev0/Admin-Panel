@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0e1512">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://bdtycwjpxhsniilcngsn.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Admin</title>
+<!-- Made by Don.Tech -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Vazirmatn:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e1512;--panel:#16201b;--panel2:#1d2a23;--line:#2b3b32;--brass:#c9a56a;--ivory:#f1ece1;--mute:#a3afa7;--bad:#e07a6e;--ok:#6cbf8a;--warn:#e0b25a;--r:14px;--sb:env(safe-area-inset-bottom,0px);--st:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ivory);font:400 16px/1.55 'Vazirmatn',system-ui,-apple-system,'Segoe UI',sans-serif;min-height:100svh;overflow-x:hidden}
+h2,h3{font-family:'Cormorant Garamond','Vazirmatn',Georgia,serif;font-weight:700;line-height:1.15}
+a{color:inherit;text-decoration:none}
+img{display:block;width:100%;height:100%;object-fit:cover}
+button,input,select,textarea{font:inherit;color:inherit}
+input,select,textarea{font-size:16px}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+code{background:var(--panel2);padding:1px 6px;border-radius:6px;font-size:13px}
+.ico{width:1.2em;height:1.2em;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.22em;flex:none}
+.btn{background:var(--brass);color:#1a1409;border:0;padding:10px 20px;border-radius:999px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;transition:transform .15s,opacity .15s;text-align:center}
+.btn:hover{transform:translateY(-1px)}.btn:active{transform:scale(.98)}
+.btn.ghost{background:transparent;color:var(--ivory);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--brass)}
+.btn.danger{background:transparent;color:var(--bad);border:1px solid var(--bad)}
+.btn.sm{padding:6px 14px;font-size:14px;min-height:40px}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.meta{color:var(--mute);font-size:14px}
+.err{color:var(--bad);font-size:14px;min-height:22px}
+/* login */
+.center{min-height:100svh;display:grid;place-items:center;padding:20px}
+.modal{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);width:min(440px,100%);padding:26px;animation:pop .35s cubic-bezier(.2,.8,.2,1) both}
+@keyframes pop{from{opacity:0;transform:translateY(16px) scale(.97)}}
+.brandrow{display:flex;align-items:center;gap:10px;color:var(--brass);margin-bottom:16px}
+.brandrow h3{font-size:30px}
+/* forms */
+.f{margin-bottom:12px}.f label{display:block;font-size:13px;color:var(--mute);margin-bottom:3px}
+.f input,.f select,.f textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-height:46px}
+.f textarea{min-height:90px;resize:vertical}
+.f .hint{font-size:12px;color:var(--mute);margin-top:3px}
+.mono{font-family:ui-monospace,Menlo,Consolas,monospace!important;font-size:14px!important;line-height:1.5}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:520px){.g2{grid-template-columns:1fr}}
+.chk{display:flex;gap:12px;align-items:center;margin:8px 0;cursor:pointer;min-height:44px}
+.chk input{width:22px;height:22px;accent-color:var(--brass);flex:none}
+/* layout */
+.app{display:grid;grid-template-columns:240px 1fr;min-height:100svh}
+.side{background:var(--panel);border-inline-end:1px solid var(--line);padding:20px 14px;position:sticky;top:0;height:100svh;display:flex;flex-direction:column;gap:4px;overflow:auto}
+.side .bn{font:700 24px 'Cormorant Garamond','Vazirmatn',serif;color:var(--brass);padding:0 8px 14px;overflow-wrap:anywhere}
+.side button,.sheet button.it{background:none;border:0;text-align:start;padding:11px 12px;border-radius:10px;color:var(--mute);display:flex;gap:12px;align-items:center;min-height:46px;width:100%}
+.side button:hover,.side button.on,.sheet button.it:hover{background:var(--panel2);color:var(--ivory)}
+.side .sp{flex:1}
+.badge{background:var(--brass);color:#1a1409;border-radius:99px;font-size:12px;font-weight:700;min-width:20px;height:20px;padding:0 6px;display:inline-grid;place-items:center;margin-inline-start:auto}
+.col{min-width:0;display:flex;flex-direction:column}
+.top,.bottom{display:none}
+.main{padding:clamp(16px,3vw,32px);min-width:0;animation:fade .3s both}
+@keyframes fade{from{opacity:0}}
+.pagehead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.pagehead h2{font-size:clamp(30px,4vw,40px)}
+@media(max-width:900px){
+ .app{grid-template-columns:1fr}.side{display:none}
+ .top{display:flex;align-items:center;justify-content:space-between;gap:10px;position:sticky;top:0;z-index:20;background:rgba(14,21,18,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:calc(10px + var(--st)) 16px 10px}
+ .top b{font:700 22px 'Cormorant Garamond','Vazirmatn',serif;color:var(--brass);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .bottom{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;z-index:30;inset:auto 0 0 0;padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px);background:rgba(22,32,27,.97);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:6px 4px calc(6px + var(--sb))}
+ .bottom button{background:none;border:0;color:var(--mute);display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;padding:6px 2px;min-height:54px;position:relative;border-radius:10px}
+ .bottom button .ico{width:24px;height:24px}
+ .bottom button.on{color:var(--brass)}
+ .bottom .badge{position:absolute;top:2px;inset-inline-start:calc(50% + 6px);margin:0}
+ .main{padding-bottom:calc(96px + var(--sb))}
+}
+.sheetov{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;animation:fade .2s both}
+.sheet{background:var(--panel);width:100%;border-radius:20px 20px 0 0;padding:14px 14px calc(14px + var(--sb));animation:slide .3s cubic-bezier(.2,.8,.2,1) both;border-top:1px solid var(--line)}
+@keyframes slide{from{transform:translateY(100%)}}
+.sheet hr{border:0;border-top:1px solid var(--line);margin:6px 0}
+.ov{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;padding:16px;animation:fade .2s both}
+.ov .modal{width:min(420px,100%)}
+@media(max-width:640px){.ov{align-items:flex-end;padding:0}.ov .modal{border-radius:20px 20px 0 0;width:100%;padding-bottom:calc(26px + var(--sb))}}
+/* components */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px;margin-bottom:20px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.stat b{font:700 34px 'Cormorant Garamond',serif;color:var(--brass);display:block;line-height:1.1}
+.stat span{display:flex;gap:6px;align-items:center;color:var(--mute);font-size:14px}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px;margin-bottom:16px}
+.box h3{font-size:24px;margin-bottom:10px}
+.rows{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:14px}
+.rowcard{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px;transition:border-color .2s}
+.rowcard.dirty{border-color:var(--brass)}
+.box.rowcard{margin-bottom:16px}
+.acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:10px;margin-bottom:6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{background:var(--panel);border:1px solid var(--line);color:var(--mute);border-radius:99px;padding:8px 16px;white-space:nowrap;min-height:40px}
+.chip.on{border-color:var(--brass);color:var(--ivory);background:var(--panel2)}
+.bk{background:var(--panel);border:1px solid var(--line);border-inline-start:4px solid var(--line);border-radius:var(--r);padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.bk.st-pending{border-inline-start-color:var(--warn)}.bk.st-confirmed,.bk.st-checked-in{border-inline-start-color:var(--ok)}.bk.st-cancelled{border-inline-start-color:var(--bad);opacity:.7}.bk.ex{opacity:.6}
+.bk-top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.bk-top b{font-size:18px;overflow-wrap:anywhere}
+.ref{font:600 13px ui-monospace,Menlo,monospace;color:var(--brass)}
+.bk-note{background:var(--bg);border-radius:8px;padding:8px 10px;font-size:14px;color:#d8d3c5;overflow-wrap:anywhere}
+.bk select{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 10px;min-height:40px}
+.flag{display:inline-block;font-size:12px;color:var(--bad);border:1px solid var(--bad);border-radius:99px;padding:0 8px;margin-inline-end:6px}
+.tag{display:inline-block;font-size:12px;border:1px solid var(--line);color:var(--mute);border-radius:99px;padding:0 8px}
+.dz{border:2px dashed var(--line);border-radius:var(--r);padding:10px;text-align:center;cursor:pointer;color:var(--mute);transition:.15s;font-size:14px;margin-bottom:12px}
+.dz.over{border-color:var(--brass);background:rgba(201,165,106,.08)}
+.dz.busy{opacity:.5;pointer-events:none}
+.dz .pv{height:150px;border-radius:10px;overflow:hidden;margin-bottom:8px;background:var(--panel2)}
+.log{font-size:14px;padding:9px 0;border-bottom:1px solid var(--line);display:flex;gap:4px 12px;flex-wrap:wrap}
+.log time{color:var(--mute);white-space:nowrap}
+.log .who{font-size:12px;color:var(--brass)}
+.note{display:flex;gap:10px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;margin-bottom:14px;font-size:14px;color:#d8d3c5}
+.note.warn{border-color:var(--warn)}.note.warn .ico{color:var(--warn);margin-top:3px}
+details.box summary{cursor:pointer;font:700 22px 'Cormorant Garamond','Vazirmatn',serif;display:flex;flex-direction:column;gap:2px;min-height:44px;justify-content:center;margin-bottom:6px}
+details.box summary .meta{font:400 13px 'Vazirmatn',sans-serif}
+.seg{display:flex;gap:6px;overflow-x:auto;margin-bottom:16px;scrollbar-width:none;border-bottom:1px solid var(--line);padding-bottom:10px}
+.seg::-webkit-scrollbar{display:none}
+.seg button{background:none;border:0;color:var(--mute);padding:9px 16px;border-radius:99px;white-space:nowrap;min-height:40px}
+.seg button.on{background:var(--panel2);color:var(--ivory)}
+.iprev{color:var(--brass);margin-top:6px;display:flex;align-items:center;gap:8px}
+.toasts{position:fixed;z-index:200;inset-inline:12px;bottom:calc(80px + var(--sb));display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
+@media(min-width:901px){.toasts{bottom:24px}}
+.toast{background:var(--brass);color:#1a1409;padding:10px 20px;border-radius:99px;font-weight:600;max-width:100%;text-align:center;animation:pop .3s both}
+.toast.bad{background:var(--bad);color:#1a0a08}
+html{overflow-x:hidden}
+img,svg{max-width:100%}
+.main{max-width:1500px;padding-left:max(clamp(16px,3vw,32px),env(safe-area-inset-left,0px));padding-right:max(clamp(16px,3vw,32px),env(safe-area-inset-right,0px))}
+.bk-top b,.rowcard h3,.box h3{overflow-wrap:anywhere}
+@media(max-width:900px) and (max-height:520px){.top{position:static}.bottom button{flex-direction:row;justify-content:center;gap:6px;min-height:46px}.bottom button .ico{width:20px;height:20px}.main{padding-bottom:calc(70px + var(--sb))}}
+@media(max-width:360px){.btn{padding:8px 14px}.bottom button{font-size:10px}.stat b{font-size:28px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<script>
+const SB='https://bdtycwjpxhsniilcngsn.supabase.co',KEY='sb_publishable_-tUlRtrpdyK1eO3ZzLyYuQ_2bm_oZ_L',SK='hotel_admin_session';
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const enc=encodeURIComponent;
+
+/* ---------- icons ---------- */
+const IC={
+chart:'<path d="M3 3v18h18M7 14l4-4 4 4 5-6"/>',calendar:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+bed:'<path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4M12 4v6M2 18h20"/>',
+image:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.09-3.09a2 2 0 0 0-2.82 0L6 21"/>',
+file:'<path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5zM14 2v6h6M8 13h8M8 17h8"/>',
+list:'<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',
+sliders:'<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/>',
+out:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',
+plus:'<path d="M12 5v14M5 12h14"/>',upload:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>',
+refresh:'<path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/>',
+more:'<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>',
+alert:'<path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"/>',
+check:'<path d="M20 6 9 17l-5-5"/>',phone:'<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
+lock:'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+shield:'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/>',
+utensils:'<path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/>',
+pool:'<path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/>',
+spa:'<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10zM2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>',
+car:'<path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2M7 17h10"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/>',
+bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+wifi:'<path d="M12 20h.01M2 8.82a15 15 0 0 1 20 0M5 12.86a10 10 0 0 1 14 0M8.5 16.43a5 5 0 0 1 7 0"/>',
+gift:'<path d="M20 12v10H4V12M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>',
+moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/>',
+users:'<circle cx="9" cy="7" r="4"/><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
+star:'<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/>',
+coffee:'<path d="M10 2v2M14 2v2M6 2v2M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"/>',
+dumbbell:'<path d="M6.5 6.5v11M17.5 6.5v11M3 9v6M21 9v6M6.5 12h11"/>',
+plane:'<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>',
+sparkles:'<path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.13-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.13a.5.5 0 0 1 .96 0L14.06 8.5A2 2 0 0 0 15.5 9.94l6.13 1.58a.5.5 0 0 1 0 .96L15.5 14.06a2 2 0 0 0-1.44 1.44l-1.58 6.13a.5.5 0 0 1-.96 0z"/>'
+};
+const ICON_CHOICES=['utensils','pool','spa','car','bell','wifi','gift','moon','users','star','coffee','dumbbell','shield','plane','sparkles'];
+const ico=(n,c='')=>`<svg class="ico ${c}" viewBox="0 0 24 24" aria-hidden="true">${IC[n]||IC.star}</svg>`;
+
+/* ---------- session + API ---------- */
+let SES=null;try{SES=JSON.parse(localStorage.getItem(SK))}catch(e){}
+let DB=null,tab='dash',sub='cards',bf='all',bq='',lf='all';
+const PR={Prefer:'return=representation'};
+function setSession(j){SES={access_token:j.access_token,refresh_token:j.refresh_token,expires_at:j.expires_at||Math.floor(Date.now()/1000)+j.expires_in,user:j.user||SES?.user};localStorage.setItem(SK,JSON.stringify(SES))}
+function clearSession(){SES=null;DB=null;localStorage.removeItem(SK)}
+async function refresh(){
+ try{const r=await fetch(SB+'/auth/v1/token?grant_type=refresh_token',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({refresh_token:SES.refresh_token})});
+  if(!r.ok)throw 0;setSession(await r.json());return true}catch(e){clearSession();renderLogin('Your session ended. Please sign in again.');return false}}
+async function ensureFresh(){if(SES&&SES.expires_at-Date.now()/1000<60)await refresh()}
+function rawReq(path,o={}){const h={apikey:KEY,...(o.headers||{})};if(SES)h.Authorization='Bearer '+SES.access_token;
+ let body;if(o.body instanceof Blob)body=o.body;else if(o.body!==undefined){h['Content-Type']='application/json';body=JSON.stringify(o.body)}
+ return fetch(SB+path,{method:o.method||'GET',headers:h,body})}
+async function sb(path,o={}){
+ await ensureFresh();if(!SES)throw new Error('Signed out');
+ let r=await rawReq(path,o);if(r.status===401){if(await refresh())r=await rawReq(path,o)}
+ if(!r.ok){let m='Request failed ('+r.status+')';try{const j=await r.json();m=j.message||j.msg||j.error_description||m}catch(e){}throw new Error(m)}
+ if(r.status===204)return null;const tx=await r.text();return tx?JSON.parse(tx):null}
+const insert=(t,b)=>sb('/rest/v1/'+t,{method:'POST',body:b,headers:PR});
+const patch=(t,col,val,b)=>sb(`/rest/v1/${t}?${col}=eq.${enc(val)}`,{method:'PATCH',body:b,headers:PR});
+const remove=(t,col,val)=>sb(`/rest/v1/${t}?${col}=eq.${enc(val)}`,{method:'DELETE'});
+async function logAct(action,detail=''){try{await sb('/rest/v1/hotel_logs',{method:'POST',body:{actor:SES?.user?.email||'admin',action,detail:String(detail).slice(0,300)}})}catch(e){}}
+
+/* ---------- ui helpers ---------- */
+function toast(m,bad){const d=document.createElement('div');d.className='toast'+(bad?' bad':'');d.textContent=m;$('#toasts').append(d);setTimeout(()=>d.remove(),bad?4200:2400)}
+function ask(title,text,ok='Delete',danger=true){return new Promise(res=>{const ov=document.createElement('div');ov.className='ov';
+ ov.innerHTML=`<div class="modal" role="dialog" aria-modal="true"><h3>${esc(title)}</h3><p class="meta" style="margin:8px 0 18px">${esc(text)}</p><div class="acts"><button class="btn ${danger?'danger':''}" data-y style="flex:1">${esc(ok)}</button><button class="btn ghost" data-n style="flex:1">Cancel</button></div></div>`;
+ document.body.append(ov);const done=v=>{ov.remove();res(v)};ov.addEventListener('click',e=>{if(e.target===ov||e.target.closest('[data-n]'))done(false);if(e.target.closest('[data-y]'))done(true)})})}
+const fmt=d=>new Date(d).toLocaleString([], {dateStyle:'medium',timeStyle:'short'});
+const money=n=>(DB?.settings?.currency||'$')+Number(n).toLocaleString();
+const today=()=>{const d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*6e4).toISOString().slice(0,10)};
+function normPhone(p){let d=String(p).replace(/\D/g,'');if(d.startsWith('00964'))d=d.slice(5);else if(d.startsWith('964'))d=d.slice(3);if(d.length===10&&d[0]==='7')d='0'+d;return /^07[3-9]\d{8}$/.test(d)?d:null}
+const isExp=b=>b.status==='pending'&&Date.now()-new Date(b.created_at)>DB.settings.hold_hours*36e5;
+const pendingList=()=>DB.bookings.filter(b=>b.status==='pending'&&!isExp(b));
+function flagsOf(b){const f=[];if(DB.bookings.filter(x=>x.phone===b.phone).length>=3)f.push('Repeat number');if(b.form_secs!=null&&b.form_secs<10)f.push('Filled very fast');
+ if(DB.bookings.some(x=>x.id!==b.id&&x.guest_name.toLowerCase()===b.guest_name.toLowerCase()&&x.phone!==b.phone))f.push('Same name, other number');return f}
+function csv(name,rows){const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';dl(name,'\ufeff'+rows.map(r=>r.map(q).join(',')).join('\n'),'text/csv')}
+function dl(name,data,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
+
+/* ---------- login ---------- */
+function renderLogin(msg=''){
+ $('#app').innerHTML=`<div class="center"><div class="modal"><div class="brandrow">${ico('lock')}<h3>Admin</h3></div>
+ <div class="f"><label for="em">Email</label><input id="em" type="email" autocomplete="username" inputmode="email" autocapitalize="off"></div>
+ <div class="f"><label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password"></div>
+ <div class="err" id="le" role="alert">${esc(msg)}</div><button class="btn" id="go" style="width:100%">Sign in</button></div></div>`;
+ const go=async()=>{const email=$('#em').value.trim(),password=$('#pw').value;const le=$('#le'),b=$('#go');if(!email||!password){le.textContent='Enter your email and password.';return}
+  b.disabled=true;le.textContent='';
+  try{const r=await fetch(SB+'/auth/v1/token?grant_type=password',{method:'POST',headers:{apikey:KEY,'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+   const j=await r.json();if(!r.ok)throw new Error(r.status===400?'Wrong email or password.':(j.msg||j.message||'Could not sign in.'));
+   setSession(j);await start()}catch(e){le.textContent=e.message;b.disabled=false}};
+ $('#go').onclick=go;$('#pw').addEventListener('keydown',e=>{if(e.key==='Enter')go()});
+}
+async function start(){
+ try{const a=await sb('/rest/v1/hotel_admins?select=user_id');
+  if(!a||!a.length){clearSession();renderLogin('This account is not an administrator of this website.');return}
+  await loadAll();shell()}catch(e){if(SES){toast(e.message,true);renderLogin('Could not load data: '+e.message)}}}
+async function loadAll(){
+ const [s,rooms,cards,reviews,gal,legal,bookings,blocked,logs]=await Promise.all([
+  sb('/rest/v1/hotel_settings?id=eq.1&select=*'),sb('/rest/v1/hotel_rooms?select=*&order=position.asc'),sb('/rest/v1/hotel_cards?select=*&order=position.asc'),
+  sb('/rest/v1/hotel_reviews?select=*&order=position.asc'),sb('/rest/v1/hotel_gallery?select=*&order=position.asc'),sb('/rest/v1/hotel_legal_pages?lang=eq.en&select=*&order=position.asc'),
+  sb('/rest/v1/hotel_bookings?select=*&order=created_at.desc&limit=500'),sb('/rest/v1/hotel_blocked_phones?select=*&order=created_at.desc'),sb('/rest/v1/hotel_logs?select=*&order=created_at.desc&limit=300')]);
+ DB={settings:s[0]||{},rooms,cards,reviews,gal,legal,bookings,blocked,logs}}
+async function signOut(){try{await sb('/auth/v1/logout',{method:'POST'})}catch(e){}clearSession();renderLogin()}
+
+/* ---------- shell ---------- */
+const TABS=[['dash','Dashboard','chart'],['book','Bookings','calendar'],['rooms','Rooms','bed'],['content','Content','image'],['legal','Legal pages','file'],['logs','Activity log','list'],['set','Settings','sliders']];
+const MOBILE_MAIN=['dash','book','rooms','content'];
+function shell(){
+ const nm=esc(DB.settings.name||'Hotel');
+ $('#app').innerHTML=`<div class="app"><aside class="side"><div class="bn" id="bn1">${nm}</div>
+  ${TABS.map(([k,l,i])=>`<button data-tab="${k}">${ico(i)}${l}${k==='book'?'<span class="badge" data-pend hidden></span>':''}</button>`).join('')}
+  <div class="sp"></div><button data-act="reload">${ico('refresh')}Refresh</button><button data-act="signout">${ico('out')}Sign out</button><div class="meta" style="padding:8px 12px;overflow-wrap:anywhere">${esc(SES.user?.email||'')}</div></aside>
+  <div class="col"><header class="top"><b id="bn2">${nm}</b><button class="btn ghost sm" data-act="reload" aria-label="Refresh">${ico('refresh')}</button></header><main class="main" id="main"></main></div></div>
+  <nav class="bottom" aria-label="Sections">${TABS.filter(t=>MOBILE_MAIN.includes(t[0])).map(([k,l,i])=>`<button data-tab="${k}">${ico(i)}<span>${l}</span>${k==='book'?'<span class="badge" data-pend hidden></span>':''}</button>`).join('')}<button data-act="more">${ico('more')}<span>More</span></button></nav>`;
+ renderMain();
+}
+function markNav(){$$('[data-tab]').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab));$$('.bottom [data-act=more]').forEach(b=>b.classList.toggle('on',!MOBILE_MAIN.includes(tab)));
+ const n=pendingList().length;$$('[data-pend]').forEach(e=>{e.hidden=!n;e.textContent=n})}
+function renderMain(){const m=$('#main');if(!m)return;m.innerHTML=VIEWS[tab]();markNav()}
+function keepScroll(fn){const y=scrollY;fn();scrollTo(0,y)}
+const head=(t,extra='')=>`<div class="pagehead"><h2>${t}</h2>${extra}</div>`;
+const stat=(v,l,i)=>`<div class="stat"><b>${esc(v)}</b><span>${ico(i)}${l}</span></div>`;
+const logRow=l=>`<div class="log"><time>${fmt(l.created_at)}</time><span><b>${esc(l.action)}</b> <span class="who">${esc(l.actor)}</span><br><span class="meta">${esc(l.detail)}</span></span></div>`;
+
+/* ---------- form builders ---------- */
+function fld(name,label,value,type='text',extra='',hint=''){
+ const v=esc(value??'');
+ if(type==='textarea')return `<div class="f"><label>${label}</label><textarea data-f="${name}" maxlength="600" ${extra}>${v}</textarea></div>`;
+ return `<div class="f"><label>${label}</label><input data-f="${name}" type="${type}" value="${v}" ${type==='number'?'inputmode="decimal"':''} ${type==='text'||type==='email'||type==='tel'?'maxlength="200"':''} ${extra}>${hint?`<div class="hint">${esc(hint)}</div>`:''}</div>`}
+const dz=(target,url,label)=>`<div class="dz" data-dz="${target}" tabindex="0" role="button" aria-label="${esc(label)}: upload image"><div class="pv">${url?`<img src="${esc(url)}" alt="">`:''}</div><div>${ico('upload')} Tap to upload, or drop an image</div><input type="file" accept="image/*" hidden ${target.endsWith('|new')?'multiple':''}></div>`;
+const FIELDS={
+ look:[['name','Hotel name','text','',''],['tagline','Tagline','text','','']],
+ business:[['legal_name','Registered business name','text','','Used in the legal pages. Leave empty to use the hotel name.'],['reg_number','Commercial registration number','text','','Leave empty to hide it.'],['tax_id','Tax ID','text','','Leave empty to hide it.'],['address','Address','text','','']],
+ contact:[['phone','Phone','tel','',''],['whatsapp','WhatsApp number','tel','','Digits only, with country code. Example: 9647501234567'],['email','Email','email','',''],['currency','Currency symbol','text','maxlength="6"','']],
+ rules:[['checkin_time','Check-in time','time','',''],['checkout_time','Check-out time','time','',''],['hold_hours','Hold unconfirmed requests (hours)','number','min="1" max="168" step="1"','After this time an unconfirmed request frees the room again.'],['max_nights','Longest stay bookable online (nights)','number','min="1" max="365" step="1"',''],['stars','Official star rating','number','min="0" max="5" step="1"','Use 0 to hide it. Only show stars if the hotel is officially classified.']]
+};
+const setCard=(title,key)=>`<div class="box rowcard" data-t="hotel_settings" data-id="1"><h3>${title}</h3>${FIELDS[key].map(([n,l,ty,ex,h])=>fld(n,l,DB.settings[n],ty,ex,h)).join('')}<div class="acts"><button class="btn sm" data-act="save-row" disabled>Save</button></div></div>`;
+
+/* ---------- views ---------- */
+const VIEWS={dash:vDash,book:vBook,rooms:vRooms,content:vContent,legal:vLegal,logs:vLogs,set:vSet};
+function vDash(){
+ const pend=pendingList(),up=DB.bookings.filter(b=>b.status==='confirmed'&&b.check_in>=today());
+ const rev=DB.bookings.filter(b=>['confirmed','checked-in','completed'].includes(b.status)).reduce((a,b)=>a+Number(b.total),0);
+ const blk=DB.logs.filter(l=>l.action==='Blocked attempt'&&Date.now()-new Date(l.created_at)<7*864e5).length;
+ return head('Dashboard')+`<div class="stats">${stat(pend.length,'Waiting for your call','clock')}${stat(up.length,'Upcoming confirmed','calendar')}${stat(money(rev),'Confirmed revenue','chart')}${stat(blk,'Fake attempts stopped (7 days)','shield')}</div>
+ <div class="box"><h3>Needs your call</h3>${pend.length?`<div class="rows">${pend.slice(0,6).map(bookingCard).join('')}</div>`:'<p class="meta">No new requests right now.</p>'}</div>
+ <div class="box"><h3>Latest activity</h3>${DB.logs.slice(0,6).map(logRow).join('')||'<p class="meta">Nothing yet.</p>'}</div>`}
+function bookingCard(b){
+ const ex=isExp(b),fl=flagsOf(b),n=Math.round((new Date(b.check_out)-new Date(b.check_in))/864e5),wa='964'+b.phone.slice(1);
+ return `<div class="bk st-${b.status}${ex?' ex':''}" data-bid="${b.id}"><div class="bk-top"><b dir="auto">${esc(b.guest_name)}</b><span class="ref">${esc(b.ref)}</span></div>
+ <div class="meta">${esc(b.room_name)} · ${b.check_in} → ${b.check_out} (${n} night${n===1?'':'s'}) · ${b.guests} guest${b.guests===1?'':'s'} · ${money(b.total)}</div>
+ <div class="meta"><span dir="ltr">${esc(b.phone)}</span> · ${fmt(b.created_at)}</div>
+ ${b.note?`<div class="bk-note" dir="auto">${esc(b.note)}</div>`:''}
+ <div>${fl.map(f=>`<span class="flag">${esc(f)}</span>`).join('')}${ex?'<span class="tag">hold expired</span>':''}${b.consent_version?`<span class="tag">terms ${esc(b.consent_version)}</span>`:''}</div>
+ <div class="acts"><select data-bs="${b.id}" aria-label="Status">${['pending','confirmed','checked-in','completed','cancelled'].map(s=>`<option ${s===b.status?'selected':''}>${s}</option>`).join('')}</select>
+ <a class="btn sm" href="tel:+${wa}">${ico('phone')}Call</a><a class="btn sm ghost" target="_blank" rel="noopener noreferrer" href="https://wa.me/${wa}">WhatsApp</a>
+ ${b.status==='pending'?`<button class="btn sm ghost" data-act="confirm-bk" data-id="${b.id}">${ico('check')}Confirm</button>`:''}
+ <button class="btn sm ghost" data-act="block-bk" data-id="${b.id}">Block</button><button class="btn sm danger" data-act="del-bk" data-id="${b.id}">Delete</button></div></div>`}
+function bookingListHTML(){
+ const q=bq.toLowerCase();
+ const f=DB.bookings.filter(b=>{const okF=bf==='all'||(bf==='expired'?isExp(b):(b.status===bf&&!isExp(b)));return okF&&(!q||(b.guest_name+' '+b.phone+' '+b.ref).toLowerCase().includes(q))});
+ return f.map(bookingCard).join('')||'<p class="meta">No bookings found.</p>'}
+function vBook(){
+ const chips=['all','pending','confirmed','checked-in','completed','cancelled','expired'];
+ return head('Bookings',`<button class="btn ghost sm" data-act="csv-bk">${ico('upload')}CSV</button>`)+
+ `<p class="meta" style="margin-bottom:10px">Call each guest to check the number is real, then press Confirm. Requests you do not confirm free the room after ${DB.settings.hold_hours} hours.</p>
+ <div class="chips">${chips.map(c=>`<button class="chip ${bf===c?'on':''}" data-bf="${c}">${c==='all'?'All':c[0].toUpperCase()+c.slice(1)}</button>`).join('')}</div>
+ <div class="f"><input type="search" id="bq" placeholder="Search name, phone or reference" value="${esc(bq)}" autocomplete="off"></div><div class="rows" id="blist">${bookingListHTML()}</div>`}
+function roomCard(r){return `<div class="rowcard" data-t="hotel_rooms" data-id="${r.id}">${dz('rooms|'+r.id+'|image_url',r.image_url,'Room photo')}
+ ${fld('name','Room name',r.name)}<div class="g2">${fld('price','Price per night',r.price,'number','min="0" step="0.01"')}${fld('units','Rooms of this type',r.units,'number','min="0" step="1"')}</div>
+ <div class="g2">${fld('capacity','Max guests',r.capacity,'number','min="1" max="20" step="1"')}${fld('position','Order on website',r.position,'number','step="1"')}</div>
+ ${fld('description','Description',r.description,'textarea')}
+ <label class="chk"><input type="checkbox" data-f="active" ${r.active?'checked':''}><span>Show on the website</span></label>
+ <div class="acts"><button class="btn sm" data-act="save-row" disabled>Save</button><button class="btn sm danger" data-act="del-row">Delete</button></div></div>`}
+function vRooms(){return head('Rooms',`<button class="btn sm" data-act="add-room">${ico('plus')}Add room</button>`)+`<div class="rows">${DB.rooms.map(roomCard).join('')||'<p class="meta">No rooms yet.</p>'}</div>`}
+function cardRow(c){return `<div class="rowcard" data-t="hotel_cards" data-id="${c.id}"><div class="f"><label>Icon</label><select data-f="icon">${ICON_CHOICES.map(i=>`<option ${i===c.icon?'selected':''}>${i}</option>`).join('')}</select><div class="iprev">${ico(c.icon)}<span class="meta">Preview</span></div></div>
+ ${fld('title','Card name',c.title)}${fld('time_text','Time or days',c.time_text,'text','','For example 07:00 – 23:00 or Fri – Sat')}${fld('body','Text',c.body,'textarea')}${fld('position','Order',c.position,'number','step="1"')}
+ <div class="acts"><button class="btn sm" data-act="save-row" disabled>Save</button><button class="btn sm danger" data-act="del-row">Delete</button></div></div>`}
+function vContent(){
+ const segs=[['cards','Cards & times'],['look','Appearance'],['gal','Gallery'],['rev','Reviews']];
+ let body='';
+ if(sub==='cards')body=['service','offer'].map(k=>`<div class="pagehead"><h3 style="font-size:26px">${k==='service'?'Service cards':'Offer cards'}</h3><button class="btn sm" data-act="add-card" data-kind="${k}">${ico('plus')}Add card</button></div><div class="rows" style="margin-bottom:24px">${DB.cards.filter(c=>c.kind===k).map(cardRow).join('')||'<p class="meta">None yet.</p>'}</div>`).join('');
+ if(sub==='look')body=`<div class="box"><h3>Hero background</h3>${dz('settings|1|hero_url',DB.settings.hero_url,'Hero image')}<p class="meta">Use a wide, sharp photo (1920 px or wider). It is resized and compressed automatically.</p></div>${setCard('Name and tagline','look')}`;
+ if(sub==='gal')body=`<div class="box"><h3>Add photos</h3>${dz('gallery|new|',null,'New gallery photos')}</div><div class="rows">${DB.gal.map(g=>`<div class="rowcard">${dz('gallery|'+g.id+'|image_url',g.image_url,'Gallery photo')}<div class="acts"><button class="btn sm danger" data-act="del-gal" data-id="${g.id}">Remove</button></div></div>`).join('')}</div>`;
+ if(sub==='rev')body=`<div class="note warn">${ico('alert')}<span>Only publish real reviews from real guests, with their permission. Fake reviews can be illegal.</span></div><div class="pagehead"><span></span><button class="btn sm" data-act="add-review">${ico('plus')}Add review</button></div><div class="rows">${DB.reviews.map(r=>`<div class="rowcard" data-t="hotel_reviews" data-id="${r.id}">${fld('name','Guest name',r.name)}${fld('body','Review',r.body,'textarea')}${fld('position','Order',r.position,'number','step="1"')}<div class="acts"><button class="btn sm" data-act="save-row" disabled>Save</button><button class="btn sm danger" data-act="del-row">Delete</button></div></div>`).join('')||'<p class="meta">No reviews yet. The section stays hidden on the website until you add one.</p>'}</div>`;
+ return head('Content')+`<div class="seg">${segs.map(([k,l])=>`<button class="${sub===k?'on':''}" data-sub="${k}">${l}</button>`).join('')}</div>${body}`}
+function vLegal(){
+ return head('Legal pages')+`<div class="note warn">${ico('alert')}<span>These pages are templates, not legal advice. Before launch, ask a licensed lawyer in your country to check them and match them to the hotel's real policies (especially cancellation and payment terms).</span></div>
+ <p class="meta" style="margin-bottom:14px">Use <code># Title</code> for a section heading, <code>- item</code> for a list, and a blank line between paragraphs. These placeholders fill in by themselves: <code>{{hotel_name}}</code> <code>{{legal_name}}</code> <code>{{reg_number}}</code> <code>{{tax_id}}</code> <code>{{address}}</code> <code>{{phone}}</code> <code>{{email}}</code> <code>{{checkin}}</code> <code>{{checkout}}</code> <code>{{hold_hours}}</code> <code>{{max_nights}}</code> <code>{{currency}}</code> <code>{{updated}}</code>. A line is hidden when its placeholder is empty. Saving a page updates the terms version that guests accept when they book.</p>`+
+ DB.legal.map(p=>`<details class="box rowcard" data-t="hotel_legal_pages" data-slug="${esc(p.slug)}"><summary>${esc(p.title)}<span class="meta">Last saved ${p.updated_at.slice(0,10)}</span></summary>${fld('title','Title',p.title)}<div class="f"><label>Text</label><textarea data-f="body" class="mono" rows="16" maxlength="30000">${esc(p.body)}</textarea></div><div class="acts"><button class="btn sm" data-act="save-row" disabled>Save</button></div></details>`).join('')}
+function vLogs(){
+ const L=DB.logs.filter(l=>lf==='all'||(lf==='blocked'?l.action==='Blocked attempt':lf==='guest'?l.actor==='guest':l.actor!=='guest'));
+ return head('Activity log',`<button class="btn ghost sm" data-act="csv-log">${ico('upload')}CSV</button>`)+`<div class="chips">${[['all','All'],['guest','Guests'],['admin','Admin'],['blocked','Blocked attempts']].map(([k,l])=>`<button class="chip ${lf===k?'on':''}" data-lf="${k}">${l}</button>`).join('')}</div><div class="box">${L.map(logRow).join('')||'<p class="meta">Nothing yet.</p>'}<p class="meta" style="margin-top:10px">Showing the latest 300 entries.</p></div>`}
+function vSet(){
+ return head('Settings')+setCard('Business details','business')+setCard('Contact','contact')+setCard('Stay and booking rules','rules')+
+ `<div class="box"><h3>Blocked phone numbers</h3>${DB.blocked.map(b=>`<div class="log"><span dir="ltr">${esc(b.phone)}</span><span class="meta">${esc(b.reason||'')}</span><button class="btn sm ghost" data-act="unblock" data-phone="${esc(b.phone)}" style="margin-inline-start:auto">Unblock</button></div>`).join('')||'<p class="meta">None.</p>'}
+ <div class="f" style="margin-top:12px"><label for="bp">Block a number</label><input id="bp" type="tel" dir="ltr" inputmode="tel" placeholder="0750 123 4567"></div><button class="btn sm" data-act="block-num">Block number</button></div>
+ <div class="box"><h3>Your account</h3><p class="meta" style="margin-bottom:10px">Signed in as ${esc(SES.user?.email||'')}</p>
+ <div class="f"><label for="np">New password</label><input id="np" type="password" autocomplete="new-password"><div class="hint">At least 10 characters.</div></div><div class="f"><label for="np2">Repeat new password</label><input id="np2" type="password" autocomplete="new-password"></div>
+ <button class="btn sm" data-act="change-pw">Change password</button></div>
+ <div class="box"><h3>Your data</h3><div class="acts"><button class="btn ghost sm" data-act="csv-bk">${ico('upload')}Bookings (CSV)</button><button class="btn ghost sm" data-act="backup">${ico('upload')}Full backup (JSON)</button></div>
+ <p class="meta" style="margin-top:10px">To answer a guest's request to delete their data, delete their booking in the Bookings section.</p></div>`}
+
+/* ---------- saving ---------- */
+const LIST={hotel_rooms:'rooms',hotel_cards:'cards',hotel_reviews:'reviews',hotel_gallery:'gal'};
+const LABEL={hotel_rooms:'Room',hotel_cards:'Card',hotel_reviews:'Review',hotel_settings:'Settings',hotel_legal_pages:'Legal page'};
+function collect(card){const o={};$$('[data-f]',card).forEach(el=>{const k=el.dataset.f;o[k]=el.type==='checkbox'?el.checked:el.type==='number'?(el.value===''?null:Number(el.value)):el.value.trim()});return o}
+function validate(t,o){
+ const T=/^([01]\d|2[0-3]):[0-5]\d$/,int=(v,a,b)=>Number.isInteger(v)&&v>=a&&v<=b;
+ if(t==='hotel_rooms'){if(!o.name)return 'Room name is required.';if(!(o.price>=0))return 'Enter a valid price.';if(!int(o.units,0,9999))return 'Rooms of this type must be a whole number.';if(!int(o.capacity,1,20))return 'Max guests must be 1 to 20.'}
+ if(t==='hotel_cards'&&!o.title)return 'Card name is required.';
+ if(t==='hotel_reviews'&&(!o.name||!o.body))return 'Name and review text are required.';
+ if(t==='hotel_legal_pages'&&(!o.title||!o.body))return 'Title and text are required.';
+ if(t==='hotel_settings'){
+  if('name'in o&&!o.name)return 'Hotel name is required.';
+  if(o.email&&!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(o.email))return 'Enter a valid email address.';
+  if(o.whatsapp&&!/^\d{8,15}$/.test(o.whatsapp))return 'WhatsApp number: digits only, 8 to 15, with country code.';
+  if('checkin_time'in o&&!T.test(o.checkin_time))return 'Enter a valid check-in time.';
+  if('checkout_time'in o&&!T.test(o.checkout_time))return 'Enter a valid check-out time.';
+  if('hold_hours'in o&&!int(o.hold_hours,1,168))return 'Hold time must be 1 to 168 hours.';
+  if('max_nights'in o&&!int(o.max_nights,1,365))return 'Longest stay must be 1 to 365 nights.';
+  if('stars'in o&&!int(o.stars,0,5))return 'Star rating must be 0 to 5.';
+  if('currency'in o&&!o.currency)return 'Currency symbol is required.'}
+ return ''}
+async function saveRow(btn){
+ const card=btn.closest('.rowcard'),t=card.dataset.t,o=collect(card);
+ if('position'in o&&o.position===null)o.position=0;
+ const m=validate(t,o);if(m){toast(m,true);return}
+ btn.disabled=true;btn.textContent='Saving…';
+ try{let rows,key;
+  if(t==='hotel_settings'){rows=await patch(t,'id',1,o);if(rows?.length)Object.assign(DB.settings,rows[0])}
+  else if(t==='hotel_legal_pages'){o.updated_at=new Date().toISOString();rows=await sb(`/rest/v1/hotel_legal_pages?slug=eq.${enc(card.dataset.slug)}&lang=eq.en`,{method:'PATCH',body:o,headers:PR});
+   if(rows?.length){const i=DB.legal.findIndex(x=>x.slug===card.dataset.slug);DB.legal[i]=rows[0];const r2=await patch('hotel_settings','id',1,{legal_version:today()});if(r2?.length)Object.assign(DB.settings,r2[0])}}
+  else{rows=await patch(t,'id',card.dataset.id,o);if(rows?.length){const L=DB[LIST[t]],i=L.findIndex(x=>x.id===card.dataset.id);L[i]=rows[0]}}
+  if(!rows||!rows.length)throw new Error('Not saved. You may not have permission.');
+  await logAct('Edited '+LABEL[t].toLowerCase(),Object.keys(o).join(', ')+(o.name?' · '+o.name:o.title?' · '+o.title:''));
+  card.classList.remove('dirty');btn.textContent='Save';toast('Saved');
+  if(t==='hotel_settings'){$$('#bn1,#bn2').forEach(e=>e.textContent=DB.settings.name)}
+  if(['hotel_rooms','hotel_cards','hotel_reviews'].includes(t))keepScroll(renderMain);
+ }catch(e){toast(e.message,true);btn.disabled=false;btn.textContent='Save'}}
+
+/* ---------- images ---------- */
+function shrink(file,max){return new Promise((res,rej)=>{const u=URL.createObjectURL(file),i=new Image();
+ i.onload=()=>{const s=Math.min(1,max/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=Math.round(i.width*s);c.height=Math.round(i.height*s);const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(i,0,0,c.width,c.height);URL.revokeObjectURL(u);c.toBlob(b=>b?res(b):rej(new Error('Could not process the image.')),'image/jpeg',.84)};
+ i.onerror=()=>{URL.revokeObjectURL(u);rej(new Error('Your browser cannot read this image type. Use JPG or PNG.'))};i.src=u})}
+async function uploadImage(file,folder){
+ if(!file.type.startsWith('image/'))throw new Error('Choose an image file.');
+ if(file.size>25*1024*1024)throw new Error('This image is too large (25 MB maximum).');
+ const blob=await shrink(file,1800);if(blob.size>5*1024*1024)throw new Error('Image is still over 5 MB after compression. Try a smaller photo.');
+ await ensureFresh();const path=`${folder}/${Date.now()}-${Math.random().toString(36).slice(2,8)}.jpg`;
+ const r=await fetch(`${SB}/storage/v1/object/hotel-media/${path}`,{method:'POST',headers:{apikey:KEY,Authorization:'Bearer '+SES.access_token,'Content-Type':'image/jpeg','x-upsert':'false'},body:blob});
+ if(!r.ok){let m='Upload failed';try{m=(await r.json()).message||m}catch(e){}throw new Error(m)}
+ return `${SB}/storage/v1/object/public/hotel-media/${path}`}
+const TBL={rooms:'hotel_rooms',gallery:'hotel_gallery',settings:'hotel_settings'};
+async function handleFiles(dz,files){
+ const [kind,id,field]=dz.dataset.dz.split('|');if(!files.length)return;dz.classList.add('busy');
+ try{
+  if(kind==='gallery'&&id==='new'){let n=0;for(const f of files){const url=await uploadImage(f,'gallery');const rows=await insert('hotel_gallery',{image_url:url,position:DB.gal.length+1});DB.gal.push(rows[0]);n++}
+   await logAct('Added gallery photos',String(n));toast(n+' photo'+(n>1?'s':'')+' added');keepScroll(renderMain);return}
+  const url=await uploadImage(files[0],kind==='settings'?'site':kind);const t=TBL[kind];
+  const rows=await patch(t,'id',id,{[field]:url});if(!rows?.length)throw new Error('Not saved. You may not have permission.');
+  if(kind==='settings')DB.settings[field]=url;else{const L=kind==='rooms'?DB.rooms:DB.gal,i=L.findIndex(x=>x.id===id);if(i>-1)L[i][field]=url}
+  $('.pv',dz).innerHTML=`<img src="${esc(url)}" alt="">`;await logAct('Changed image',kind+' '+(kind==='settings'?field:''));toast('Image saved')
+ }catch(e){toast(e.message,true)}finally{dz.classList.remove('busy')}}
+
+/* ---------- actions ---------- */
+async function setStatus(id,status){
+ const b=DB.bookings.find(x=>x.id===id);if(!b||b.status===status)return;const old=b.status;
+ try{const rows=await patch('hotel_bookings','id',id,{status});if(!rows?.length)throw new Error('Not saved.');b.status=status;await logAct('Booking status',`${b.ref}: ${old} → ${status}`);toast('Status updated');keepScroll(renderMain)}
+ catch(e){toast(e.message,true);keepScroll(renderMain)}}
+async function blockPhone(phone,reason){
+ await sb('/rest/v1/hotel_blocked_phones',{method:'POST',body:{phone,reason},headers:{Prefer:'resolution=ignore-duplicates,return=minimal'}});
+ await sb(`/rest/v1/hotel_bookings?phone=eq.${enc(phone)}&status=eq.pending`,{method:'PATCH',body:{status:'cancelled'},headers:{Prefer:'return=minimal'}});
+ DB.bookings.forEach(b=>{if(b.phone===phone&&b.status==='pending')b.status='cancelled'});
+ DB.blocked=await sb('/rest/v1/hotel_blocked_phones?select=*&order=created_at.desc');await logAct('Blocked number',phone)}
+async function act(a){
+ const act=a.dataset.act;
+ try{
+ if(act==='reload'){a.disabled=true;await loadAll();renderMain();toast('Updated');a.disabled=false}
+ else if(act==='signout')signOut();
+ else if(act==='more'){const ov=document.createElement('div');ov.className='sheetov';
+  ov.innerHTML=`<div class="sheet">${TABS.filter(t=>!MOBILE_MAIN.includes(t[0])).map(([k,l,i])=>`<button class="it" data-go="${k}">${ico(i)}${l}</button>`).join('')}<hr><button class="it" data-act="reload">${ico('refresh')}Refresh</button><button class="it" data-act="signout">${ico('out')}Sign out</button><div class="meta" style="padding:8px 12px">${esc(SES.user?.email||'')}</div></div>`;
+  document.body.append(ov);ov.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g){tab=g.dataset.go;ov.remove();renderMain();scrollTo(0,0)}else if(e.target===ov||e.target.closest('[data-act]'))ov.remove()})}
+ else if(act==='save-row')saveRow(a);
+ else if(act==='add-room'){const r=await insert('hotel_rooms',{name:'New room',price:80,units:1,capacity:2,position:DB.rooms.length+1,description:''});DB.rooms.push(r[0]);await logAct('Added room','');renderMain()}
+ else if(act==='add-card'){const r=await insert('hotel_cards',{kind:a.dataset.kind,icon:'star',title:'New card',position:DB.cards.filter(c=>c.kind===a.dataset.kind).length+1});DB.cards.push(r[0]);await logAct('Added card',a.dataset.kind);renderMain()}
+ else if(act==='add-review'){const r=await insert('hotel_reviews',{name:'Guest name',body:'Review text',position:DB.reviews.length+1});DB.reviews.push(r[0]);await logAct('Added review','');renderMain()}
+ else if(act==='del-row'){const card=a.closest('.rowcard'),t=card.dataset.t,id=card.dataset.id;const L=DB[LIST[t]],it=L.find(x=>x.id===id);
+  if(!await ask('Delete this item?',(it?.name||it?.title||'This item')+' will be removed from the website.'))return;
+  await remove(t,'id',id);DB[LIST[t]]=L.filter(x=>x.id!==id);await logAct('Deleted '+LABEL[t].toLowerCase(),it?.name||it?.title||'');toast('Deleted');keepScroll(renderMain)}
+ else if(act==='del-gal'){if(!await ask('Remove this photo?','It will disappear from the gallery.','Remove'))return;await remove('hotel_gallery','id',a.dataset.id);DB.gal=DB.gal.filter(x=>x.id!==a.dataset.id);await logAct('Removed gallery photo','');keepScroll(renderMain)}
+ else if(act==='confirm-bk')setStatus(a.dataset.id,'confirmed');
+ else if(act==='block-bk'){const b=DB.bookings.find(x=>x.id===a.dataset.id);if(!await ask('Block this number?',`${b.phone} will not be able to book online and its open requests will be cancelled.`,'Block'))return;await blockPhone(b.phone,'Blocked from booking '+b.ref);toast('Number blocked');keepScroll(renderMain)}
+ else if(act==='del-bk'){const b=DB.bookings.find(x=>x.id===a.dataset.id);if(!await ask('Delete this booking?','This permanently deletes the guest\'s data. Use it for data deletion requests or spam.'))return;await remove('hotel_bookings','id',b.id);DB.bookings=DB.bookings.filter(x=>x.id!==b.id);await logAct('Deleted booking',b.ref);toast('Deleted');keepScroll(renderMain)}
+ else if(act==='unblock'){await remove('hotel_blocked_phones','phone',a.dataset.phone);DB.blocked=DB.blocked.filter(x=>x.phone!==a.dataset.phone);await logAct('Unblocked number',a.dataset.phone);keepScroll(renderMain)}
+ else if(act==='block-num'){const p=normPhone($('#bp').value);if(!p){toast('Enter a valid Iraqi mobile number.',true);return}await blockPhone(p,'Blocked by admin');toast('Number blocked');keepScroll(renderMain)}
+ else if(act==='change-pw'){const a1=$('#np').value,a2=$('#np2').value;if(a1.length<10){toast('Use at least 10 characters.',true);return}if(a1!==a2){toast('The two passwords do not match.',true);return}
+  await sb('/auth/v1/user',{method:'PUT',body:{password:a1}});await logAct('Changed password','');$('#np').value='';$('#np2').value='';toast('Password changed')}
+ else if(act==='csv-bk')csv('bookings.csv',[['Reference','Created','Guest','Phone','Room','Check-in','Check-out','Guests','Total','Status','Note','Terms version']].concat(DB.bookings.map(b=>[b.ref,b.created_at,b.guest_name,b.phone,b.room_name,b.check_in,b.check_out,b.guests,b.total,b.status,b.note,b.consent_version])));
+ else if(act==='csv-log')csv('activity-log.csv',[['Time','Who','Action','Detail']].concat(DB.logs.map(l=>[l.created_at,l.actor,l.action,l.detail])));
+ else if(act==='backup'){dl('hotel-backup.json',JSON.stringify(DB,null,1),'application/json');await logAct('Downloaded backup','')}
+ }catch(e){toast(e.message,true);if(a&&a.disabled)a.disabled=false}}
+
+/* ---------- events ---------- */
+document.addEventListener('click',e=>{
+ const tb=e.target.closest('[data-tab]');if(tb){tab=tb.dataset.tab;renderMain();scrollTo(0,0);return}
+ const sb2=e.target.closest('[data-sub]');if(sb2){sub=sb2.dataset.sub;renderMain();return}
+ const bfb=e.target.closest('[data-bf]');if(bfb){bf=bfb.dataset.bf;renderMain();return}
+ const lfb=e.target.closest('[data-lf]');if(lfb){lf=lfb.dataset.lf;renderMain();return}
+ const dzel=e.target.closest('.dz');if(dzel&&e.target.type!=='file'){$('input',dzel).click();return}
+ const a=e.target.closest('[data-act]');if(a&&!a.closest('.sheet'))act(a)});
+document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.classList?.contains('dz')){e.preventDefault();$('input',e.target).click()}});
+function dirty(e){const c=e.target.closest?.('.rowcard');if(c&&e.target.matches('[data-f]')){c.classList.add('dirty');const b=$('[data-act=save-row]',c);if(b)b.disabled=false}}
+document.addEventListener('input',e=>{dirty(e);if(e.target.id==='bq'){bq=e.target.value;$('#blist').innerHTML=bookingListHTML()}});
+document.addEventListener('change',e=>{
+ dirty(e);
+ if(e.target.matches('select[data-f=icon]')){const p=e.target.closest('.f').querySelector('.iprev');if(p)p.firstElementChild.outerHTML=ico(e.target.value)}
+ if(e.target.dataset.bs)setStatus(e.target.dataset.bs,e.target.value);
+ const d=e.target.closest?.('.dz');if(d&&e.target.type==='file'){handleFiles(d,[...e.target.files]);e.target.value=''}});
+['dragover','dragleave','drop'].forEach(ev=>document.addEventListener(ev,e=>{const d=e.target.closest?.('.dz');if(!d)return;e.preventDefault();d.classList.toggle('over',ev==='dragover');if(ev==='drop')handleFiles(d,[...e.dataTransfer.files])}));
+
+/* ---------- live updates ---------- */
+async function poll(){
+ if(!SES||!DB||document.hidden)return;
+ try{const [b,l]=await Promise.all([sb('/rest/v1/hotel_bookings?select=*&order=created_at.desc&limit=500'),sb('/rest/v1/hotel_logs?select=*&order=created_at.desc&limit=300')]);
+  const before=pendingList().length;DB.bookings=b;DB.logs=l;const after=pendingList().length;markNav();if(after>before)toast('New booking request');
+  const ae=document.activeElement;if(['dash','book','logs'].includes(tab)&&!(ae&&/^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName)))keepScroll(renderMain)}catch(e){}}
+setInterval(poll,60000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)poll()});
+
+if(SES)start();else renderLogin();
+</script>
+</body>
+</html>
